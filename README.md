@@ -3,99 +3,116 @@
 ## 📌 Project Overview
 This project is a full-stack web application designed for NGOs where users can register to support a cause and optionally make donations.
 
-The core idea of this system is ethical and transparent donation handling.
-User registration is independent of donation success, meaning user data is never lost even if a payment fails or is cancelled.
+The key principle of this system is **ethical and transparent donation handling**.
+
+✔ User registration is saved **independently of donation success**  
+✔ No donation is marked successful without real payment confirmation  
 
 ---
 
-## 🎯 Problem This Project Solves
-In many online donation systems:
-- User data is lost if payment is not completed
-- Donations are sometimes falsely marked as successful
+## 🎯 Problem Statement
+Many online donation platforms suffer from:
+- User data loss when payment fails
+- Fake or forced payment success logic
 
-This project avoids those issues by:
-- Saving user data before any payment
-- Updating donation status only after genuine payment confirmation
+This project solves these issues by:
+- Saving user registration before payment
+- Tracking donation status honestly (`pending / success / failed`)
+- Updating payment status only after gateway confirmation
 
 ---
 
-## 🚀 Key Features
+## 🚀 Features
 
-### User Features
-- User registration and login
+### 👤 User Features
+- User registration & login
 - Optional donation flow
-- Secure PayHere sandbox payment integration
-- User dashboard showing:
+- PayHere sandbox payment integration
+- User dashboard with:
   - Profile information
-  - Donation history with status (success / pending / failed)
+  - Donation history with real payment status
 
-### Admin Features
-- Admin login with role-based access
+### 🛡 Admin Features
+- Role-based admin authentication
 - Admin dashboard with statistics
 - View all registered users
 - View all donations with filters
-- Export users and donations data as CSV files
+- Export users & donations as CSV
+- Secure admin-only APIs
 
 ---
 
 ## 🧠 System Architecture
-- Frontend: Next.js (App Router)
-- Backend: Next.js API Routes
-- Database: MongoDB with Mongoose
-- Authentication: JWT
-- Payment Gateway: PayHere Sandbox
+- **Frontend:** Next.js (App Router, Client Components)
+- **Backend:** Next.js API Routes
+- **Database:** MongoDB (Mongoose)
+- **Authentication:** JWT
+- **Payment Gateway:** PayHere (Sandbox)
 
 ---
 
 ## 🗄 Database Schema
 
 ### User Collection
-- name (String)
-- email (String)
-- password (Hashed)
-- role (user / admin)
-- createdAt (Date)
+- `name` (String)
+- `email` (String)
+- `password` (Hashed using bcrypt)
+- `role` (`user` / `admin`)
+- `createdAt` (Date)
 
 ### Donation Collection
-- userId (ObjectId)
-- amount (Number)
-- status (pending / success / failed)
-- createdAt (Date)
+- `userId` (ObjectId → User)
+- `amount` (Number)
+- `status` (`pending` / `success` / `failed`)
+- `createdAt` (Date)
 
 ---
 
-## 💳 Donation Flow
-1. Donation is created with status pending
-2. User is redirected to PayHere
-3. PayHere confirms payment
-4. Donation status is updated to success or failed
-5. No fake success logic is used
+## 💳 Donation & Payment Flow (IMPORTANT)
+
+1. User initiates donation
+2. Donation entry is created with status **pending**
+3. User is redirected to PayHere checkout
+4. PayHere processes payment
+5. System updates donation status:
+   - `success` → payment confirmed
+   - `failed` → payment cancelled / declined
+6. No fake success is used
+
+> ⚠️ Ethical Rule:  
+> A donation is never marked successful without confirmation.
 
 ---
 
-## 🔐 Security
-- Password hashing using bcrypt
-- JWT based authentication
-- Role based authorization
-- Environment variables stored securely
+## 🔐 Authentication & Security
+- Passwords hashed using bcrypt
+- JWT used for authentication
+- Role-based route protection
+- Admin-only APIs secured
+- Environment variables protected via `.env.local`
 
 ---
 
-## ▶️ How to Run Locally
+## 👤 Admin Access Details
 
-1. Clone repository
-git clone https://github.com/Sresthkh/ngo-donation-system.git
+This project uses **role-based authentication**.
 
-2. Go to project folder
-
-3. Install dependencies
-
-4. Run development server
-
-App will run on:
-http://localhost:3000
+Only users with role `"admin"` can:
+- Access `/admin`
+- View users & donations
+- Export data
 
 ---
 
-## 👤 Author
-Sresth Khandelwal
+## 🧪 Default Admin Credentials (For Testing)
+
+
+admin:first@gmail.com
+password:first
+
+
+
+
+
+
+
